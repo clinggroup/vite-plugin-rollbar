@@ -58,7 +58,7 @@ export default function rollbarSourcemaps({
       silent,
       rollbarEndpoint
     },
-    name: 'rollbar-sourcemap-vite-plugin',
+    name: 'vite-plugin-rollbar',
     async writeBundle() {
       const files = await glob('./**/*.map', { cwd: outputDir })
       const sourcemaps = files
@@ -89,7 +89,7 @@ export default function rollbarSourcemaps({
       if (!sourcemaps.length) return
 
       Promise.all(
-        sourcemaps.forEach((asset) => {
+        sourcemaps.map((asset) => {
           const form = new FormData()
           form.append('access_token', accessToken)
           form.append('version', version)

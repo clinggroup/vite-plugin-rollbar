@@ -16,7 +16,8 @@ module.exports = {
     semi: ['error', 'never'],
     indent: ['error', 2],
     'comma-dangle': ['error', 'never'],
-    'no-console': ['error', { allow: ['info', 'warn', 'error'] }]
+    'no-console': ['error', { allow: ['info', 'warn', 'error'] }],
+    'array-callback-return': 0
   },
   ignorePatterns: ['*.json']
 }
