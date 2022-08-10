@@ -1,0 +1,46 @@
+{
+  "name": "rollbar-sourcemap-vite-plugin",
+  "version": "0.0.2",
+  "description": "A Vite plugin to upload sourcemaps to Rollbar after build.",
+  "main": "./cjs/index.js",
+  "module": "./esm/index.js",
+  "exports": {
+    ".": {
+      "require": "./cjs/index.js",
+      "default": "./esm/index.js"
+    }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "NODE_ENV=production rollup -c",
+    "release": "npx bumpp --push --tag --commit && npm publish"
+  },
+  "keywords": [
+    "vite",
+    "plugin",
+    "source",
+    "map",
+    "sourcemap",
+    "sourcemaps",
+    "production"
+  ],
+  "author": "rang-ali",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-eslint": "^8.0.2",
+    "eslint": "^8.21.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "rollup": "^2.77.2",
+    "rollup-plugin-auto-external": "^2.0.0"
+  },
+  "dependencies": {
+    "fast-glob": "^3.2.11",
+    "form-data": "^4.0.0",
+    "fs": "^0.0.1-security",
+    "node-fetch-native": "^0.1.4",
+    "path": "^0.12.7",
+    "verror": "^1.10.1"
+  }
+}
