@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-rollbar",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A Vite plugin to upload sourcemaps to Rollbar after build.",
   "main": "./cjs/index.js",
   "module": "./esm/index.js",
