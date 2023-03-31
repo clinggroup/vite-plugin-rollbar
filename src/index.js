@@ -47,6 +47,7 @@ export default function rollbarSourcemaps({
   baseUrl,
   silent = false,
   rollbarEndpoint = ROLLBAR_ENDPOINT,
+  ignoreUploadErrors = true,
   base = '/',
   outputDir = 'dist'
 }) {
@@ -88,23 +89,33 @@ export default function rollbarSourcemaps({
 
       if (!sourcemaps.length) return
 
-      Promise.all(
-        sourcemaps.map((asset) => {
-          const form = new FormData()
-          form.append('access_token', accessToken)
-          form.append('version', version)
-          form.append('minified_url', `${baseUrl}${asset.original_file}`)
-          form.append('source_map', asset.content, {
-            filename: asset.original_file,
-            contentType: 'application/json'
+      try {
+        await Promise.all(
+          sourcemaps.map((asset) => {
+            const form = new FormData()
+
+            form.append('access_token', accessToken)
+            form.append('version', version)
+            form.append('minified_url', `${baseUrl}${asset.original_file}`)
+            form.append('source_map', asset.content, {
+              filename: asset.original_file,
+              contentType: 'application/json'
+            })
+
+            return uploadSourcemap(form, {
+              filename: asset.original_file,
+              rollbarEndpoint,
+              silent
+            })
           })
-          uploadSourcemap(form, {
-            filename: asset.original_file,
-            rollbarEndpoint,
-            silent
-          })
-        })
-      )
+        )
+      } catch (error) {
+        if (ignoreUploadErrors) {
+          console.error('Uploading sourcemaps to Rollbar failed: ', error)
+          return
+        }
+        throw error
+      }
     }
   }
 }

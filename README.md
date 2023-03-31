@@ -28,6 +28,7 @@ const rollbarConfig = {
   accessToken: '<SECRET_TOKEN_HERE>',
   version: '1.0',
   baseUrl: 'yourwebsite.com',
+  ignoreUploadErrors = true,
   silent: true,
 }
 
