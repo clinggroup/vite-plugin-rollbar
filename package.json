@@ -46,8 +46,6 @@
   },
   "dependencies": {
     "fast-glob": "^3.2.11",
-    "form-data": "^4.0.0",
-    "node-fetch-native": "^0.1.4",
     "verror": "^1.10.1"
   },
   "peerDependencies": {
