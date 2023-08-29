@@ -1,9 +1,7 @@
 // Custom rollup plugin for uploading rollbar deploys
-import FormData from 'form-data'
 import { existsSync, readFileSync } from 'fs'
 import { resolve } from 'path'
 import glob from 'fast-glob'
-import fetch from 'node-fetch-native'
 import VError from 'verror'
 import { ROLLBAR_ENDPOINT } from './constants'
 
@@ -94,13 +92,10 @@ export default function rollbarSourcemaps({
           sourcemaps.map((asset) => {
             const form = new FormData()
 
-            form.append('access_token', accessToken)
-            form.append('version', version)
-            form.append('minified_url', `${baseUrl}${asset.original_file}`)
-            form.append('source_map', asset.content, {
-              filename: asset.original_file,
-              contentType: 'application/json'
-            })
+            form.set('access_token', accessToken)
+            form.set('version', version)
+            form.set('minified_url', `${baseUrl}${asset.original_file}`)
+            form.set('source_map', new Blob([asset.content]), asset.original_file)
 
             return uploadSourcemap(form, {
               filename: asset.original_file,

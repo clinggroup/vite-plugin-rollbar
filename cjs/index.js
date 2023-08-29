@@ -1,17 +1,13 @@
 'use strict';
 
-var FormData = require('form-data');
 var fs = require('fs');
 var path = require('path');
 var glob = require('fast-glob');
-var fetch = require('node-fetch-native');
 var VError = require('verror');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
-var FormData__default = /*#__PURE__*/_interopDefaultLegacy(FormData);
 var glob__default = /*#__PURE__*/_interopDefaultLegacy(glob);
-var fetch__default = /*#__PURE__*/_interopDefaultLegacy(fetch);
 var VError__default = /*#__PURE__*/_interopDefaultLegacy(VError);
 
 const ROLLBAR_ENDPOINT = 'https://api.rollbar.com/api/1/sourcemap';
@@ -23,7 +19,7 @@ async function uploadSourcemap(form, { filename, rollbarEndpoint, silent }) {
 
   let res;
   try {
-    res = await fetch__default["default"](rollbarEndpoint, {
+    res = await fetch(rollbarEndpoint, {
       method: 'POST',
       body: form
     });
@@ -103,15 +99,12 @@ function rollbarSourcemaps({
       try {
         await Promise.all(
           sourcemaps.map((asset) => {
-            const form = new FormData__default["default"]();
+            const form = new FormData();
 
-            form.append('access_token', accessToken);
-            form.append('version', version);
-            form.append('minified_url', `${baseUrl}${asset.original_file}`);
-            form.append('source_map', asset.content, {
-              filename: asset.original_file,
-              contentType: 'application/json'
-            });
+            form.set('access_token', accessToken);
+            form.set('version', version);
+            form.set('minified_url', `${baseUrl}${asset.original_file}`);
+            form.set('source_map', new Blob([asset.content]), asset.original_file);
 
             return uploadSourcemap(form, {
               filename: asset.original_file,
