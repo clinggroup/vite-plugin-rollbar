@@ -7,6 +7,7 @@
   "module": "./esm/index.js",
   "exports": {
     ".": {
+      "types": "./index.d.ts",
       "require": "./cjs/index.js",
       "default": "./esm/index.js"
     }
